@@ -1,0 +1,31 @@
+@import "mixins"
+
+body
+  font: normal 14px Helvetica, Arial, sans-serif
+  background: #ececec
+
+h1
+  padding: 0 0 25px 0
+  font-size: 22px
+  font-weight: normal
+p.error
+  padding: 0 0 5px 0
+  font-weight: bold
+  color: #b00b00
+form
+  width: 860px
+  padding: 30px
+  margin: 0 auto
+  background: #ffffff
+fieldset + fieldset
+  padding: 20px 0 0 0
+dt
+  padding: 0 0 5px 0
+  label
+    font-weight: bold
+dd
+  padding: 0 0 10px 0
+  input[type="text"], input[type="email"], input[type="password"]
+    +input(240px)
+input[type="submit"]
+  +button
