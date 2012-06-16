@@ -14,26 +14,27 @@ $(function() {
     return blank;
   };
 
-  $("form").submit(function(e) {
-    var errors = $(this).find(".error").length;
+  var $form = $("form");
+
+  $form.submit(function(e) {
+    var errors = $form.find(".error").length;
     errors && e.preventDefault();
   });
 
-  $("form :password").blur(function() {
-    var $pwds = $("form :password");
-    $("form .error#password").remove();
+  $form.find(":password").blur(function() {
+    var $pwds = $form.find(":password");
+    $form.find(".error#password").remove();
     if (isIncomplete($pwds)) { return; }
     if ($pwds.eq(0).val() !== $pwds.eq(1).val()) {
       newError("Passwords must match", "password").insertBefore($pwds[1]);
     }
   });
 
-  $("form :text, form :email, form :password").blur(function() {
-    $("form :submit").prop("disabled", isIncomplete($("form :text, form :email, form :password")));
+  $form.find(":text, :email, :password").blur(function() {
+    $form.find(":submit").prop("disabled", isIncomplete($form.find(":text, :email, :password")));
   });
 
-  $("form :submit").prop("disabled", true);
-
+  $form.find(":submit").prop("disabled", true);
 });
 
 (function($) {
