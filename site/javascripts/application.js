@@ -14,28 +14,32 @@ $(function() {
     return blank;
   };
 
-  (function($form) {
-    $form.submit(function(e) {
-      var errors = $form.find(".error").length;
+  var form = {
+    $el: $("form"),
+    submit: function(e) {
+      var errors = form.$el.find(".error").length;
       errors && e.preventDefault();
-    });
-
-    $form.find(":password").blur(function() {
-      var $pwds = $form.find(":password");
-      $form.find(".error#password").remove();
+    },
+    comparePasswords: function() {
+      var $pwds = form.$el.find(":password");
+      form.$el.find(".error#password").remove();
       if (isIncomplete($pwds)) { return; }
       if ($pwds.eq(0).val() !== $pwds.eq(1).val()) {
         newError("Passwords must match", "password").insertBefore($pwds[1]);
       }
-    });
+    },
+    toggleSubmit: function() {
+      form.$el.find(":submit").prop("disabled", isIncomplete(form.$el.find(":text, :email, :password")));
+    },
+    init: function() {
+      form.$el.submit(form.submit);
+      form.$el.on("blur.comparePasswords", ":password", form.comparePasswords);
+      form.$el.on("blur.toggleSubmit", ":text, :email, :password", form.toggleSubmit);
+      form.$el.find(":submit").prop("disabled", true);
+    }
+  };
 
-    $form.find(":text, :email, :password").blur(function() {
-      $form.find(":submit").prop("disabled", isIncomplete($form.find(":text, :email, :password")));
-    });
-
-    $form.find(":submit").prop("disabled", true);
-  })($("form"));
-
+  form.init();
 });
 
 (function($) {
